@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +20,15 @@
   "bugs": {
     "url": "https://github.com/dalirnet/StrongLines/issues"
   },
-  "homepage": "https://github.com/dalirnet/StrongLines#readme"
+  "homepage": "https://github.com/dalirnet/StrongLines#readme",
+  "dependencies": {
+    "ccxt": "^1.37.67",
+    "chalk": "^4.1.0",
+    "inquirer": "^7.3.3",
+    "inquirer-autocomplete-prompt": "^1.3.0",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "ora": "^5.1.0",
+    "tracer": "^1.1.4"
+  }
 }
