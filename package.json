@@ -1,0 +1,23 @@
+{
+  "name": "stronglines",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dalirnet/StrongLines.git"
+  },
+  "keywords": [
+    "bit",
+    "trade"
+  ],
+  "author": "AmirRezaDalir",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dalirnet/StrongLines/issues"
+  },
+  "homepage": "https://github.com/dalirnet/StrongLines#readme"
+}
