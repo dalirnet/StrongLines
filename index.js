@@ -104,7 +104,7 @@ async function start() {
               let minPrice = 0;
               let maxPrice = 0;
               _.forEach(data, ([time, open, high, low, close, volume]) => {
-                totalVolume += volume;
+                totalVolume += _.round(volume);
                 let min = _.min([open, high, low, close]);
                 if (minPrice === 0 || minPrice > min) {
                   minPrice = min;
@@ -114,7 +114,56 @@ async function start() {
                   maxPrice = max;
                 }
               });
-              console.log(totalVolume, minPrice, maxPrice);
+              let table = {};
+              let step = (maxPrice - minPrice) / 100;
+              _.forEach(_.range(100), (index) => {
+                table[index] = {
+                  line: _.round(minPrice + (index * step + step / 2), 6),
+                  hit: 0,
+                  volume: 0,
+                  score: 0,
+                  weight: 0,
+                };
+              });
+              _.forEach(data, ([time, open, high, low, close, volume]) => {
+                let pos = {
+                  open: _.round((open - minPrice) / step),
+                  high: _.round((high - minPrice) / step),
+                  low: _.round((low - minPrice) / step),
+                  close: _.round((close - minPrice) / step),
+                };
+                if (pos.open > 0) {
+                  table[pos.open - 1].hit += 3;
+                  table[pos.open - 1].volume += _.round(volume);
+                }
+                if (pos.high > 0) {
+                  table[pos.high - 1].hit += 1;
+                  table[pos.high - 1].volume += _.round(volume / 3);
+                }
+                if (pos.low > 0) {
+                  table[pos.low - 1].hit += 1;
+                  table[pos.low - 1].volume += _.round(volume / 3);
+                }
+                if (pos.close > 0) {
+                  table[pos.close - 1].hit += 3;
+                  table[pos.close - 1].volume += _.round(volume);
+                }
+              });
+              let topScore = 0;
+              _.forEach(table, ({ hit, volume }, key) => {
+                let weight = _.round((volume * 100) / totalVolume);
+                let score = hit * weight;
+                table[key].weight = weight;
+                table[key].score = score;
+                if (score > topScore) {
+                  topScore = score;
+                }
+              });
+              let topRate = _.filter(
+                table,
+                ({ score }) => score > topScore / 4
+              );
+              console.log(topRate);
             })
             .catch((e) => {
               spinner.fail("Failed loading [.log]");
